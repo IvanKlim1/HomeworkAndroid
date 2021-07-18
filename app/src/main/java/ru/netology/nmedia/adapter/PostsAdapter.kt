@@ -54,8 +54,9 @@ class PostViewHolder(
             published.text = post.published
             content.text = post.content
             like.isChecked=post.likedByMe
+            repost.isChecked=post.repostByMe
             menu.setOnClickListener {
-                PopupMenu(it.context, it).apply {
+                val popup = PopupMenu(it.context, it).apply {
                     inflate(R.menu.options_post)
                     setOnMenuItemClickListener { item ->
                         when (item.itemId) {
@@ -67,11 +68,13 @@ class PostViewHolder(
                                 onInteractionListener.onEdit(post)
                                 true
                             }
-
                             else -> false
                         }
                     }
-                }.show()
+                }
+                menu.setOnClickListener {
+                    popup.show()
+                }
             }
             like.text = countFormat(post.likes)
             repost.text = countFormat(post.reposts)
