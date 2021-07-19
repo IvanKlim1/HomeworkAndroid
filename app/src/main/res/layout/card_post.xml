@@ -57,13 +57,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/common_spacing"
+            android:contentDescription="@string/description_post_menu"
             android:background="@android:color/transparent"
             android:checkable="true"
-            android:contentDescription="@string/description_post_menu"
+            app:icon="@drawable/ic_more_vert_24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:icon="@drawable/ic_more_vert_24dp"
-
             />
 
         <androidx.constraintlayout.widget.Barrier
