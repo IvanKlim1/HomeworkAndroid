@@ -57,7 +57,6 @@ class PostViewHolder(
             content.text = post.content
             like.isChecked = post.likedByMe
             menu.setOnClickListener {
-                binding.menu.isChecked = true
                 PopupMenu(it.context, it).apply {
                     inflate(R.menu.options_post)
                     setOnMenuItemClickListener { item ->
@@ -72,9 +71,6 @@ class PostViewHolder(
                             }
                             else -> false
                         }
-                    }
-                    setOnDismissListener {
-                        binding.menu.isChecked = false
                     }
                 }.show()
             }
