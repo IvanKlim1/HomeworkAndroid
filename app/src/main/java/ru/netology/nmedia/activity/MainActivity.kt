@@ -1,8 +1,10 @@
 package ru.netology.nmedia.activity
 
+import android.content.Intent
+import android.os.Bundle
+import androidx.activity.result.launch
 import ru.netology.nmedia.adapter.ExtensionForAdapterFunctions
 import ru.netology.nmedia.post.Post
-import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -22,11 +24,19 @@ class MainActivity : AppCompatActivity() {
 
         val viewModel: PostViewModel by viewModels()
         val adapter = PostsAdapter(object : ExtensionForAdapterFunctions {
-            override fun liked(post: Post) {
+            override fun onLiked(post: Post) {
                 viewModel.like(post.id)
             }
-            override fun shared(post: Post) {
-                viewModel.shares(post.id)
+            override fun onShared(post: Post) {
+                val intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, post.content)
+                    type = "text/plain"
+                }
+
+                val shareIntent =
+                    Intent.createChooser(intent, getString(R.string.chooser_share_post))
+                startActivity(shareIntent)
             }
             override fun onEdit(post: Post) {
                 viewModel.edit(post)
@@ -40,6 +50,15 @@ class MainActivity : AppCompatActivity() {
         binding.list.adapter = adapter
         viewModel.data.observe(this) { posts ->
             adapter.submitList(posts)
+        }
+        val newPostLauncher = registerForActivityResult(NewPostResultContract()) { result ->
+            result ?: return@registerForActivityResult
+            viewModel.changeContent(result)
+            viewModel.save()
+        }
+
+        binding.fab.setOnClickListener {
+            newPostLauncher.launch()
         }
 
         viewModel.edited.observe(this) { post ->

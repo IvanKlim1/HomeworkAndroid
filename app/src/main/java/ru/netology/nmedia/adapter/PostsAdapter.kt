@@ -16,8 +16,8 @@ private val df = DecimalFormat("#.#")
 private val dff = DecimalFormat("#")
 
 interface ExtensionForAdapterFunctions {
-    fun liked(post: Post) {}
-    fun shared(post: Post) {}
+    fun onLiked(post: Post) {}
+    fun onShared(post: Post) {}
     fun onEdit(post: Post) {}
     fun onRemove(post: Post) {}
 }
@@ -77,10 +77,10 @@ class PostViewHolder(
             like.text = countFormat(post.likes)
             share.text = countFormat(post.shares)
             like.setOnClickListener {
-                onInteractionListener.liked(post)
+                onInteractionListener.onLiked(post)
             }
             share.setOnClickListener {
-                onInteractionListener.shared(post)
+                onInteractionListener.onShared(post)
             }
         }
     }
