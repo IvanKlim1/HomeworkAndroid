@@ -17,7 +17,7 @@ private val dff = DecimalFormat("#")
 
 interface ExtensionForAdapterFunctions {
     fun liked(post: Post) {}
-    fun reposted(post: Post) {}
+    fun shared(post: Post) {}
     fun onEdit(post: Post) {}
     fun onRemove(post: Post) {}
 }
@@ -56,7 +56,6 @@ class PostViewHolder(
             published.text = post.published
             content.text = post.content
             like.isChecked = post.likedByMe
-            repost.isChecked = post.repostByMe
             menu.setOnClickListener {
                 binding.menu.isChecked = true
                 PopupMenu(it.context, it).apply {
@@ -80,12 +79,12 @@ class PostViewHolder(
                 }.show()
             }
             like.text = countFormat(post.likes)
-            repost.text = countFormat(post.reposts)
+            share.text = countFormat(post.shares)
             like.setOnClickListener {
                 onInteractionListener.liked(post)
             }
-            repost.setOnClickListener {
-                onInteractionListener.reposted(post)
+            share.setOnClickListener {
+                onInteractionListener.shared(post)
             }
         }
     }

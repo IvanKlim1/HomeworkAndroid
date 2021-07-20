@@ -25,8 +25,8 @@ class MainActivity : AppCompatActivity() {
             override fun liked(post: Post) {
                 viewModel.like(post.id)
             }
-            override fun reposted(post: Post) {
-                viewModel.repost(post.id)
+            override fun shared(post: Post) {
+                viewModel.shares(post.id)
             }
             override fun onEdit(post: Post) {
                 viewModel.edit(post)
