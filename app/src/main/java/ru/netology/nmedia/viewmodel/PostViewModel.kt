@@ -1,7 +1,5 @@
 package ru.netology.nmedia.viewmodel
 
-import android.view.View
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.netology.nmedia.post.Post
@@ -22,7 +20,6 @@ class PostViewModel : ViewModel() {
     val data = repository.getAll()
     val edited = MutableLiveData(empty)
     fun like(id: Long) = repository.like(id)
-    fun shares(id: Long) = repository.share(id)
     fun removeById(id: Long) = repository.removeById(id)
 
 

@@ -1,44 +1,16 @@
 package ru.netology.nmedia.activity
-
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import ru.netology.nmedia.databinding.ActivityEditPostBinding
-import ru.netology.nmedia.post.Post
-import ru.netology.nmedia.repository.PostRepository
-import ru.netology.nmedia.repository.PostRepositoryInMemoryImpl
-import ru.netology.nmedia.viewmodel.empty
-
-internal val empty = Post(
-    id = 0,
-    content = "",
-    author = "",
-    likedByMe = false,
-    published = "",
-    sharedByMe = false,
-
-    )
-
 class EditPostActivity : AppCompatActivity() {
-    fun onEdit(savedInstanceState: ViewModel) {
-        val repository: PostRepository = PostRepositoryInMemoryImpl()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         val binding = ActivityEditPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.edit.setOnClickListener {
-            val edited = MutableLiveData(empty)
-            fun edit(post: Post) {
-                edited.value = post
-            }
-
-            fun changeContent(content: String) {
-                val text = content.trim()
-                if (edited.value?.content == text) {
-                    return
-                }
-                edited.value = edited.value?.copy(content = text)
-            }
+        if (savedInstanceState == null) {
+            binding.edit.setText(intent.getStringExtra(Intent.EXTRA_TEXT))
         }
         binding.ok.setOnClickListener {
             val intent = Intent()

@@ -19,12 +19,6 @@
         <activity
             android:name=".activity.EditPostActivity"
             android:exported="true">
-        <intent-filter>
-
-            <action android:name="android.intent.action.EDIT" />
-            <category android:name="android.intent.category.DEFAULT" />
-            <data android:mimeType="*/*" />
-        </intent-filter>
         </activity>
         <activity
             android:name=".activity.IntentHandlerActivity"
