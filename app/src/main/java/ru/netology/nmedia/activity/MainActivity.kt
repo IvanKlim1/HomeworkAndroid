@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent().apply {
                     action = Intent.ACTION_SEND
                     putExtra(Intent.EXTRA_TEXT, post.content)
-                    type = "text/plain"
+                    type = "*/*"
                 }
 
                 val shareIntent =
@@ -39,7 +39,11 @@ class MainActivity : AppCompatActivity() {
                 startActivity(shareIntent)
             }
             override fun onEdit(post: Post) {
-                viewModel.edit(post)
+                val intent = Intent().apply {
+                    action = Intent.ACTION_EDIT
+                    putExtra(Intent.EXTRA_TEXT, post.content)
+                    type = "*/*"
+                }
             }
 
             override fun onRemove(post: Post) {
