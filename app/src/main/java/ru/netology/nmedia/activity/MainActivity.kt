@@ -9,7 +9,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import ru.netology.nmedia.R
 import ru.netology.nmedia.adapter.ExtensionForAdapterFunctions
-import ru.netology.nmedia.adapter.PostsAdapter
 import ru.netology.nmedia.databinding.ActivityMainBinding
 import ru.netology.nmedia.post.Post
 import ru.netology.nmedia.util.AndroidUtils
@@ -25,28 +24,42 @@ class MainActivity : AppCompatActivity() {
             viewModel.changeContent(result)
             viewModel.save()
         }
-        val adapter = PostsAdapter(object : ExtensionForAdapterFunctions {
-            override fun onLiked(post: Post) {
-                viewModel.like(post.id)
-            }
-            override fun onShared(post: Post) {
-                val intent = Intent().apply {
-                    action = Intent.ACTION_SEND
-                    putExtra(Intent.EXTRA_TEXT, post.content)
-                    type = "*/*"
+        val adapter =
+            ExtensionForAdapterFunctions.PostsAdapter(object : ExtensionForAdapterFunctions {
+                override fun onLiked(post: Post) {
+                    viewModel.like(post.id)
                 }
-                val shareIntent =
-                    Intent.createChooser(intent, getString(R.string.chooser_share_post))
-                startActivity(shareIntent)
-            }
-            override fun onEdit(post: Post) {
-                viewModel.edit(post)
-                editPostLauncher.launch(post.content)
-            }
-            override fun onRemove(post: Post) {
-                viewModel.removeById(post.id)
-            }
-        })
+
+                override fun onShared(post: Post) {
+                    val intent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        putExtra(Intent.EXTRA_TEXT, post.content)
+                        type = "*/*"
+                    }
+                    val shareIntent =
+                        Intent.createChooser(intent, getString(R.string.chooser_share_post))
+                    startActivity(shareIntent)
+                }
+
+                override fun onEdit(post: Post) {
+                    viewModel.edit(post)
+                    editPostLauncher.launch(post.content)
+                }
+
+                override fun onRemove(post: Post) {
+                    viewModel.removeById(post.id)
+                }
+
+                override fun playMedia(uri: String) {
+                    startActivity(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("https://www.youtube.com/watch?v=WhWc3b3KhnY")
+                        )
+                    );
+                }
+
+            })
         binding.list.adapter = adapter
         viewModel.data.observe(this) { posts ->
             adapter.submitList(posts)
@@ -72,16 +85,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
-    fun playMedia(file: Uri) {
-        val intent = Intent(Intent.ACTION_VIEW).apply {
-            data = file
-        }
-        if (intent.resolveActivity(packageManager) != null) {
-            startActivity( Intent(Intent.ACTION_VIEW,
-                Uri.parse("https://www.youtube.com/watch?v=WhWc3b3KhnY")));
-        }
-    }
 
 
 binding.clear.setOnClickListener {
