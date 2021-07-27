@@ -1,29 +1,42 @@
 package ru.netology.nmedia.activity
+
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.launch
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.R
 import ru.netology.nmedia.adapter.ExtensionForAdapterFunctions
-import ru.netology.nmedia.databinding.ActivityMainBinding
+import ru.netology.nmedia.databinding.FragmentFeedBinding
 import ru.netology.nmedia.post.Post
 import ru.netology.nmedia.util.AndroidUtils
 import ru.netology.nmedia.viewmodel.PostViewModel
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        val viewModel: PostViewModel by viewModels()
-        val editPostLauncher = registerForActivityResult(EditPostResultContract()) { result ->
-            result ?: return@registerForActivityResult
-            viewModel.changeContent(result)
-            viewModel.save()
-        }
+
+class FeedFragment : Fragment() {
+    private val viewModel: PostViewModel by viewModels(
+        ownerProducer = ::requireParentFragment
+    )
+    val editPostLauncher = registerForActivityResult(EditPostResultContract()) { result ->
+        result ?: return@registerForActivityResult
+        viewModel.changeContent(result)
+        viewModel.save()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        val binding = FragmentFeedBinding.inflate(
+            inflater,
+            container,
+            false
+        )
         val adapter =
             ExtensionForAdapterFunctions.PostsAdapter(object : ExtensionForAdapterFunctions {
                 override fun onLiked(post: Post) {
@@ -61,18 +74,21 @@ class MainActivity : AppCompatActivity() {
 
             })
         binding.list.adapter = adapter
-        viewModel.data.observe(this) { posts ->
+        viewModel.data.observe(viewLifecycleOwner) { posts ->
             adapter.submitList(posts)
         }
+        //  нам не нужен получается newPostLauncher??
         val newPostLauncher = registerForActivityResult(NewPostResultContract()) { result ->
             result ?: return@registerForActivityResult
             viewModel.changeContent(result)
             viewModel.save()
         }
+
+        //
         binding.fab.setOnClickListener {
-            newPostLauncher.launch()
+            findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
         }
-        viewModel.edited.observe(this) { post ->
+        viewModel.edited.observe(viewLifecycleOwner) { post ->
             if (post.id == 0L) {
                 binding.content.visibility = View.GONE
                 binding.content.visibility = View.INVISIBLE
@@ -87,16 +103,16 @@ class MainActivity : AppCompatActivity() {
 
 
 
-binding.clear.setOnClickListener {
-    with(binding.content){
-        setText(" ")
-    }
-}
+        binding.clear.setOnClickListener {
+            with(binding.content) {
+                setText(" ")
+            }
+        }
         binding.save.setOnClickListener {
             with(binding.content) {
                 if (text.isNullOrBlank()) {
                     Toast.makeText(
-                        this@MainActivity,
+                        this@FeedFragment,
                         context.getString(R.string.error_empty_content),
                         Toast.LENGTH_SHORT
                     ).show()
@@ -111,6 +127,7 @@ binding.clear.setOnClickListener {
                 AndroidUtils.hideKeyboard(this)
             }
         }
+        return binding.root
     }
 }
 
