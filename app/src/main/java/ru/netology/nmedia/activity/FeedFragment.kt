@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.R
 import ru.netology.nmedia.adapter.ExtensionForAdapterFunctions
@@ -21,11 +22,6 @@ class FeedFragment : Fragment() {
     private val viewModel: PostViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
-    val editPostLauncher = registerForActivityResult(EditPostResultContract()) { result ->
-        result ?: return@registerForActivityResult
-        viewModel.changeContent(result)
-        viewModel.save()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,8 +51,7 @@ class FeedFragment : Fragment() {
                 }
 
                 override fun onEdit(post: Post) {
-                    viewModel.edit(post)
-                    editPostLauncher.launch(post.content)
+                    findNavController().navigate(R.id.editPostFragment)
                 }
 
                 override fun onRemove(post: Post) {
@@ -77,14 +72,6 @@ class FeedFragment : Fragment() {
         viewModel.data.observe(viewLifecycleOwner) { posts ->
             adapter.submitList(posts)
         }
-        //  нам не нужен получается newPostLauncher??
-        val newPostLauncher = registerForActivityResult(NewPostResultContract()) { result ->
-            result ?: return@registerForActivityResult
-            viewModel.changeContent(result)
-            viewModel.save()
-        }
-
-        //
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
         }
@@ -112,7 +99,7 @@ class FeedFragment : Fragment() {
             with(binding.content) {
                 if (text.isNullOrBlank()) {
                     Toast.makeText(
-                        this@FeedFragment,
+                        requireContext(),
                         context.getString(R.string.error_empty_content),
                         Toast.LENGTH_SHORT
                     ).show()
