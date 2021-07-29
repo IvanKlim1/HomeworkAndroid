@@ -7,12 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import ru.netology.nmedia.databinding.FragmentEditPostBinding
+import ru.netology.nmedia.databinding.FragmentSinglePostBinding
+import ru.netology.nmedia.post.Post
+
 import ru.netology.nmedia.util.AndroidUtils
 import ru.netology.nmedia.util.StringArg
 import ru.netology.nmedia.viewmodel.PostViewModel
 
-class EditPostFragment : Fragment() {
+class SinglePostFragment : Fragment() {
 
     companion object {
         var Bundle.textArg: String? by StringArg
@@ -27,24 +29,13 @@ class EditPostFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentEditPostBinding.inflate(
+        val binding = FragmentSinglePostBinding.inflate(
             inflater,
             container,
             false
         )
-        arguments?.textArg
-            ?.let(binding.edit::setText)
 
-        if (savedInstanceState == null) {
-            binding.edit.setText(arguments?.textArg)
-        }
 
-        binding.ok.setOnClickListener {
-            viewModel.changeContent(binding.edit.text.toString())
-            viewModel.save()
-            AndroidUtils.hideKeyboard(requireView())
-            findNavController().navigateUp()
-        }
         return binding.root
     }
 }

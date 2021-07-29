@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.R
+import ru.netology.nmedia.activity.EditPostFragment.Companion.textArg
 import ru.netology.nmedia.adapter.ExtensionForAdapterFunctions
 import ru.netology.nmedia.databinding.FragmentFeedBinding
 import ru.netology.nmedia.post.Post
@@ -51,7 +52,9 @@ class FeedFragment : Fragment() {
                 }
 
                 override fun onEdit(post: Post) {
-                    findNavController().navigate(R.id.editPostFragment)
+                    findNavController().navigate(R.id.editPostFragment, Bundle().apply {
+                        textArg = post.content
+                    })
                 }
 
                 override fun onRemove(post: Post) {
@@ -72,6 +75,8 @@ class FeedFragment : Fragment() {
         viewModel.data.observe(viewLifecycleOwner) { posts ->
             adapter.submitList(posts)
         }
+
+
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
         }
@@ -87,8 +92,6 @@ class FeedFragment : Fragment() {
                 setText(post.content)
             }
         }
-
-
 
         binding.clear.setOnClickListener {
             with(binding.content) {
