@@ -41,7 +41,8 @@
     <fragment
         android:id="@+id/singlePostFragment"
         android:name="ru.netology.nmedia.activity.SinglePostFragment"
-        android:label="SinglePostFragment">
+        android:label="SinglePostFragment"
+        tools:layout="@layout/fragment_single_post">
         <argument
             android:name="single"
             android:defaultValue="0" />

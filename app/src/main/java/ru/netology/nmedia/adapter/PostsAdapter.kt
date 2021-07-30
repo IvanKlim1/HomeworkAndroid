@@ -19,9 +19,8 @@ interface ExtensionForAdapterFunctions {
     fun onShared(post: Post) {}
     fun onEdit(post: Post) {}
     fun onRemove(post: Post) {}
-    fun playMedia(uri: String) {
-    }
-    fun singlePostById(post: Post)
+    fun playMedia(uri: String) {}
+    fun singlePostById(post: Post){}
 
     class PostDiffCallback : DiffUtil.ItemCallback<Post>() {
         override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
@@ -46,6 +45,7 @@ interface ExtensionForAdapterFunctions {
             val post = getItem(position)
             holder.bind(post)
         }
+
     }
 
     class PostViewHolder(
@@ -58,6 +58,7 @@ interface ExtensionForAdapterFunctions {
                 published.text = post.published
                 content.text = post.content
                 like.isChecked = post.likedByMe
+
                 menu.setOnClickListener {
                     PopupMenu(it.context, it).apply {
                         inflate(R.menu.options_post)
@@ -76,6 +77,7 @@ interface ExtensionForAdapterFunctions {
                         }
                     }.show()
                 }
+
                 like.text = countFormat(post.likes)
                 share.text = countFormat(post.shares)
                 like.setOnClickListener {

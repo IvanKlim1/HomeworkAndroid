@@ -59,11 +59,15 @@ class FeedFragment : Fragment() {
                 override fun onRemove(post: Post) {
                     viewModel.removeById(post.id)
                 }
+
                 override fun singlePostById(post: Post) {
                     val bundle = Bundle()
                     bundle.putInt("single", post.id.toInt())
                     viewModel.singlePost(post.id.toInt())
-                    findNavController().navigate(R.id.action_feedFragment_to_singlePostFragment, bundle)
+                    findNavController().navigate(
+                        R.id.action_feedFragment_to_singlePostFragment,
+                        bundle
+                    )
                 }
 
                 override fun playMedia(uri: String) {
@@ -81,7 +85,6 @@ class FeedFragment : Fragment() {
             adapter.submitList(posts)
             binding.list.smoothScrollToPosition(0)
         }
-
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
         }
@@ -97,7 +100,6 @@ class FeedFragment : Fragment() {
                 setText(post.content)
             }
         }
-
         binding.clear.setOnClickListener {
             with(binding.content) {
                 setText(" ")
