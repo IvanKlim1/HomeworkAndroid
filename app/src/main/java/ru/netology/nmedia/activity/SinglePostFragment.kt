@@ -102,7 +102,7 @@ class SinglePostFragment : Fragment() {
         return binding.root
     }
 
-    fun countFormat(count: Int): String =
+    private fun countFormat(count: Int): String =
 
         when {
             count < 1_000 -> count.toString()

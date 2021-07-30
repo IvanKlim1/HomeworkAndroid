@@ -18,7 +18,7 @@ internal val empty = Post(
 class PostViewModel : ViewModel() {
     private val repository: PostRepository = PostRepositoryInMemoryImpl()
     val data = repository.getAll()
-    val edited = MutableLiveData(empty)
+    private val edited = MutableLiveData(empty)
     fun video(id: Int) = repository.video(id)
     fun like(id: Long) = repository.like(id)
     fun removeById(id: Long) = repository.removeById(id)
@@ -30,8 +30,7 @@ class PostViewModel : ViewModel() {
         }
         edited.value = empty
     }
-
-    fun edit(post: Post) {
+    fun edit(post: Post){
         edited.value = post
     }
 

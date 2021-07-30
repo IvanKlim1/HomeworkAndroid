@@ -128,14 +128,13 @@
             android:id="@+id/viewing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/common_viewing"
             android:layout_marginTop="@dimen/common_spacing"
             android:layout_marginEnd="@dimen/common_viewing"
             android:background="@android:color/transparent"
             app:layout_constraintEnd_toStartOf="@+id/viewingCount"
             app:layout_constraintTop_toTopOf="@+id/barrierTwo"
             app:srcCompat="@drawable/ic_baseline_remove_red_eye_24"
-            tools:ignore="VectorDrawableCompat" />
+            tools:ignore="VectorDrawableCompat,SpeakableTextPresentCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
