@@ -34,73 +34,72 @@ class SinglePostFragment : Fragment() {
         val viewModel: PostViewModel by viewModels(
             ownerProducer = ::requireParentFragment
         )
-        val post = viewModel.data.value
-            ?.find { it.id == arguments?.get("single") }
 
+        val id = arguments?.getLong("single") ?: -1
 
-
-
-        binding.apply {
-            author.text = post?.author.toString()
-            published.text = post?.published
-            content.text = post?.content
-            like.text = post?.likes.toString()
-            share.text = post?.shares.toString()
-            like.isChecked = post?.likedByMe == true
-
-
-            like.setOnClickListener {
+        viewModel.data.observe(this) { posts ->
+            val post = posts.find { it.id == id }
+            binding.apply {
+                author.text = post?.author.toString()
+                published.text = post?.published
+                content.text = post?.content
                 like.text = post?.likes.toString()
-                if (post != null) {
-                    viewModel.like(post.id)
-                    like.text = post.likes.toString()
-                }
-            }
-
-
-            share.setOnClickListener {
-                val intent = Intent().apply {
-                    action = Intent.ACTION_SEND
-                    if (post != null) {
-                        putExtra(Intent.EXTRA_TEXT, post.content)
-                    }
-                    type = "text/plain"
-                }
-
-                val shareIntent =
-                    Intent.createChooser(intent, getString(R.string.chooser_share_post))
-                startActivity(shareIntent)
-                if (post != null) {
-                    viewModel.singlePost(post.id.toInt())
-                }
                 share.text = post?.shares.toString()
-            }
+                like.isChecked = post?.likedByMe == true
 
-            menu.setOnClickListener {
-                PopupMenu(it.context, it).apply {
-                    inflate(R.menu.options_post)
-                    setOnMenuItemClickListener { menuItem ->
-                        when (menuItem.itemId) {
-                            R.id.remove -> {
-                                findNavController().popBackStack()
-                                true
-                            }
-                            R.id.edit -> {
-                                findNavController().navigate(
-                                    R.id.action_singlePostFragment_to_editPostFragment,
-                                )
-                                true
-                            }
-                            else -> false
-                        }
+
+                like.setOnClickListener {
+                    like.text = post?.likes.toString()
+                    if (post != null) {
+                        viewModel.like(post.id)
+                        like.text = post.likes.toString()
                     }
-                }.show()
-            }
-            like.text = post?.let { countFormat(it.likes) }
-            share.text = post?.let { countFormat(it.shares) }
+                }
 
-            return binding.root
+
+                share.setOnClickListener {
+                    val intent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        if (post != null) {
+                            putExtra(Intent.EXTRA_TEXT, post.content)
+                        }
+                        type = "text/plain"
+                    }
+
+                    val shareIntent =
+                        Intent.createChooser(intent, getString(R.string.chooser_share_post))
+                    startActivity(shareIntent)
+                    if (post != null) {
+                        viewModel.singlePost(post.id.toInt())
+                    }
+                    share.text = post?.shares.toString()
+                }
+
+                menu.setOnClickListener {
+                    PopupMenu(it.context, it).apply {
+                        inflate(R.menu.options_post)
+                        setOnMenuItemClickListener { menuItem ->
+                            when (menuItem.itemId) {
+                                R.id.remove -> {
+                                    findNavController().popBackStack()
+                                    true
+                                }
+                                R.id.edit -> {
+                                    findNavController().navigate(
+                                        R.id.action_singlePostFragment_to_editPostFragment,
+                                    )
+                                    true
+                                }
+                                else -> false
+                            }
+                        }
+                    }.show()
+                }
+                like.text = post?.let { countFormat(it.likes) }
+                share.text = post?.let { countFormat(it.shares) }
+            }
         }
+        return binding.root
     }
 
     fun countFormat(count: Int): String =
@@ -116,5 +115,6 @@ class SinglePostFragment : Fragment() {
         }
 
 }
+
 
 

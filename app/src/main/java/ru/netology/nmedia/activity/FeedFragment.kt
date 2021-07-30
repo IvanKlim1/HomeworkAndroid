@@ -62,21 +62,19 @@ class FeedFragment : Fragment() {
 
                 override fun singlePostById(post: Post) {
                     val bundle = Bundle()
-                    bundle.putInt("single", post.id.toInt())
-                    viewModel.singlePost(post.id.toInt())
+                    bundle.putLong("single", post.id)
                     findNavController().navigate(
                         R.id.action_feedFragment_to_singlePostFragment,
                         bundle
                     )
                 }
 
-                override fun playMedia(uri: String) {
-                    startActivity(
-                        Intent(
-                            Intent.ACTION_VIEW,
-                            Uri.parse("https://www.youtube.com/watch?v=WhWc3b3KhnY")
-                        )
-                    );
+                override fun video(post: Post) {
+
+                    val videoIntent =
+                        Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
+                    startActivity(videoIntent)
+                    viewModel.video(post.id.toInt())
                 }
 
             })
@@ -88,42 +86,7 @@ class FeedFragment : Fragment() {
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
         }
-        viewModel.edited.observe(viewLifecycleOwner) { post ->
-            if (post.id == 0L) {
-                binding.content.visibility = View.GONE
-                binding.content.visibility = View.INVISIBLE
-                return@observe
-            }
-            binding.content.visibility = View.VISIBLE
-            with(binding.content) {
-                requestFocus()
-                setText(post.content)
-            }
-        }
-        binding.clear.setOnClickListener {
-            with(binding.content) {
-                setText(" ")
-            }
-        }
-        binding.save.setOnClickListener {
-            with(binding.content) {
-                if (text.isNullOrBlank()) {
-                    Toast.makeText(
-                        requireContext(),
-                        context.getString(R.string.error_empty_content),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@setOnClickListener
-                }
 
-                viewModel.changeContent(text.toString())
-                viewModel.save()
-
-                setText("")
-                clearFocus()
-                AndroidUtils.hideKeyboard(this)
-            }
-        }
         return binding.root
     }
 }

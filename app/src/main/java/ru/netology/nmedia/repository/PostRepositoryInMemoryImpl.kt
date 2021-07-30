@@ -22,7 +22,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             published = "18 сентября в 10:12",
             likedByMe = false,
             sharedByMe = false,
-
+            video = "https://www.youtube.com/watch?v=cjWsFSYlckA"
         ),
         Post(
             id = nextId++,
@@ -39,6 +39,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             published = "19 сентября в 14:12",
             likedByMe = false,
             sharedByMe = false,
+            video = "https://www.youtube.com/watch?v=cjWsFSYlckA"
         ),
         Post(
             id = nextId++,
@@ -47,6 +48,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             published = "20 сентября в 10:14",
             likedByMe = false,
             sharedByMe = false,
+            video = "https://www.youtube.com/watch?v=WhWc3b3KhnY"
 
         ),
         Post(
@@ -56,6 +58,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             published = "21 сентября в 10:12",
             likedByMe = false,
             sharedByMe = false,
+            video = "https://www.youtube.com/watch?v=WhWc3b3KhnY"
 
         ),
         Post(
@@ -74,7 +77,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             likedByMe = false,
             sharedByMe = false,
 
-        ),
+            ),
         Post(
             id = nextId++,
             author = "Нетология. Университет интернет-профессий будущего",
@@ -119,18 +122,24 @@ class PostRepositoryInMemoryImpl : PostRepository {
         }
         data.value = posts
     }
+
     override fun share(id: Long) {
         posts = posts.map {
             if (it.id != id) it else it.copy(shares = it.shares + 1)
         }
         data.value = posts
     }
+
     override fun removeById(id: Long) {
         posts = posts.filter { it.id != id }
         data.value = posts
     }
 
     override fun singlePost(id: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun video(id: Int) {
         TODO("Not yet implemented")
     }
 

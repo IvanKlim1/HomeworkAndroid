@@ -1,6 +1,7 @@
 package ru.netology.nmedia.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
@@ -19,8 +20,8 @@ interface ExtensionForAdapterFunctions {
     fun onShared(post: Post) {}
     fun onEdit(post: Post) {}
     fun onRemove(post: Post) {}
-    fun playMedia(uri: String) {}
-    fun singlePostById(post: Post){}
+    fun video(post: Post) {}
+    fun singlePostById(post: Post) {}
 
     class PostDiffCallback : DiffUtil.ItemCallback<Post>() {
         override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
@@ -59,6 +60,12 @@ interface ExtensionForAdapterFunctions {
                 content.text = post.content
                 like.isChecked = post.likedByMe
 
+                if (post.video == null) play.visibility = View.INVISIBLE
+                else View.VISIBLE
+
+                if (post.video == null) photo.visibility = View.INVISIBLE
+                else View.VISIBLE
+
                 menu.setOnClickListener {
                     PopupMenu(it.context, it).apply {
                         inflate(R.menu.options_post)
@@ -87,13 +94,17 @@ interface ExtensionForAdapterFunctions {
                     onInteractionListener.onShared(post)
                 }
                 play.setOnClickListener {
-                    onInteractionListener.playMedia("https://www.youtube.com/watch?v=WhWc3b3KhnY")
+                    onInteractionListener.video(post)
                 }
                 photo.setOnClickListener {
-                    onInteractionListener.playMedia("https://www.youtube.com/watch?v=WhWc3b3KhnY")
+                    onInteractionListener.video(post)
+                }
+                binding.root.setOnClickListener {
+                    onInteractionListener.singlePostById(post)
                 }
             }
         }
+
 
         private fun countFormat(count: Int): String =
 
