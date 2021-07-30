@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.R
 import ru.netology.nmedia.activity.EditPostFragment.Companion.textArg
@@ -60,6 +59,12 @@ class FeedFragment : Fragment() {
                 override fun onRemove(post: Post) {
                     viewModel.removeById(post.id)
                 }
+                override fun singlePostById(post: Post) {
+                    val bundle = Bundle()
+                    bundle.putInt("single", post.id.toInt())
+                    viewModel.singlePost(post.id.toInt())
+                    findNavController().navigate(R.id.action_feedFragment_to_singlePostFragment, bundle)
+                }
 
                 override fun playMedia(uri: String) {
                     startActivity(
@@ -74,8 +79,8 @@ class FeedFragment : Fragment() {
         binding.list.adapter = adapter
         viewModel.data.observe(viewLifecycleOwner) { posts ->
             adapter.submitList(posts)
+            binding.list.smoothScrollToPosition(0)
         }
-
 
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)

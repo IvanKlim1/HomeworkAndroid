@@ -21,6 +21,7 @@ interface ExtensionForAdapterFunctions {
     fun onRemove(post: Post) {}
     fun playMedia(uri: String) {
     }
+    fun singlePostById(post: Post)
 
     class PostDiffCallback : DiffUtil.ItemCallback<Post>() {
         override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {

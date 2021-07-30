@@ -130,4 +130,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
         data.value = posts
     }
 
+    override fun singlePost(id: Int) {
+        TODO("Not yet implemented")
+    }
+
 }

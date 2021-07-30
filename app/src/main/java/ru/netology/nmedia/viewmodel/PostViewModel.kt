@@ -21,7 +21,7 @@ class PostViewModel : ViewModel() {
     val edited = MutableLiveData(empty)
     fun like(id: Long) = repository.like(id)
     fun removeById(id: Long) = repository.removeById(id)
-
+    fun singlePost(id: Int) = repository.singlePost(id)
 
     fun save() {
         edited.value?.let {
