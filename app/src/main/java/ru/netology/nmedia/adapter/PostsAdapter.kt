@@ -60,10 +60,10 @@ interface ExtensionForAdapterFunctions {
                 content.text = post.content
                 like.isChecked = post.likedByMe
 
-                if (post.video == null) play.visibility = View.INVISIBLE
+                if (post.video == null) play.visibility = View.GONE
                 else View.VISIBLE
 
-                if (post.video == null) photo.visibility = View.INVISIBLE
+                if (post.video == null) photo.visibility = View.GONE
                 else View.VISIBLE
 
                 menu.setOnClickListener {
