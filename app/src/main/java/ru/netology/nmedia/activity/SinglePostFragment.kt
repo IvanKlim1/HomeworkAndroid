@@ -37,7 +37,7 @@ class SinglePostFragment : Fragment() {
 
         val id = arguments?.getLong("single") ?: -1
 
-        viewModel.data.observe(this) { posts ->
+        viewModel.data.observe(viewLifecycleOwner) { posts ->
             val post = posts.find { it.id == id }
             binding.apply {
                 author.text = post?.author.toString()

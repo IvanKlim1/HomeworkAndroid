@@ -45,7 +45,7 @@
         tools:layout="@layout/fragment_single_post">
         <argument
             android:name="single"
-            android:defaultValue="0" />
+            android:defaultValue="0L" />
         <action
             android:id="@+id/action_singlePostFragment_to_editPostFragment"
             app:destination="@id/editPostFragment" />
