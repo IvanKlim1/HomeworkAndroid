@@ -6,11 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.R
+import ru.netology.nmedia.activity.EditPostFragment.Companion.textArg
 import ru.netology.nmedia.databinding.FragmentSinglePostBinding
+import ru.netology.nmedia.util.AndroidUtils
 import ru.netology.nmedia.viewmodel.PostViewModel
 import java.text.DecimalFormat
 
@@ -84,9 +87,14 @@ class SinglePostFragment : Fragment() {
                                     findNavController().popBackStack()
                                     true
                                 }
+
                                 R.id.edit -> {
+                                    post?.let(viewModel::edit)
                                     findNavController().navigate(
                                         R.id.action_singlePostFragment_to_editPostFragment,
+                                        Bundle().apply {
+                                            textArg = post?.content
+                                        }
                                     )
                                     true
                                 }
@@ -95,6 +103,7 @@ class SinglePostFragment : Fragment() {
                         }
                     }.show()
                 }
+
                 like.text = post?.let { countFormat(it.likes) }
                 share.text = post?.let { countFormat(it.shares) }
             }
