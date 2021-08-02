@@ -16,7 +16,7 @@ class PostDaoImpl(private val db: SQLiteDatabase) : PostDao {
             ${PostColumns.COLUMN_LIKED_BY_ME} BOOLEAN NOT NULL DEFAULT 0,
             ${PostColumns.COLUMN_LIKES} INTEGER NOT NULL DEFAULT 0,
             ${PostColumns.COLUMN_SHARED_BY_ME} BOOLEAN NOT NULL DEFAULT 0,
-            ${PostColumns.COLUMN_SHARES} INTEGER NOT NULL DEFAULT 0,
+            ${PostColumns.COLUMN_SHARES} INTEGER NOT NULL DEFAULT 0
         );
         """.trimIndent()
     }
@@ -28,7 +28,7 @@ class PostDaoImpl(private val db: SQLiteDatabase) : PostDao {
         const val COLUMN_CONTENT = "content"
         const val COLUMN_PUBLISHED = "published"
         const val COLUMN_LIKED_BY_ME = "likedByMe"
-        const val COLUMN_SHARED_BY_ME = "likedByMe"
+        const val COLUMN_SHARED_BY_ME = "sharedByMe"
         const val COLUMN_LIKES = "likes"
         const val COLUMN_SHARES = "shares"
         val ALL_COLUMNS = arrayOf(
@@ -39,7 +39,7 @@ class PostDaoImpl(private val db: SQLiteDatabase) : PostDao {
             COLUMN_LIKED_BY_ME,
             COLUMN_SHARED_BY_ME,
             COLUMN_LIKES,
-            COLUMN_SHARES,
+            COLUMN_SHARES
 
         )
     }
