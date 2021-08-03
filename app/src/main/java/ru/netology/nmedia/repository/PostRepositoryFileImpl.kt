@@ -75,11 +75,6 @@ class PostRepositoryFileImpl(
         data.value = posts
         sync()
     }
-    override fun singlePost(id: Int) {
-
-    }
-    override fun video(id: Int) {
-    }
 
     private fun sync() {
         context.openFileOutput(filename, Context.MODE_PRIVATE).bufferedWriter().use {

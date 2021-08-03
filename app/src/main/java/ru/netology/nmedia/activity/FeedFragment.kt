@@ -72,7 +72,7 @@ class FeedFragment : Fragment() {
                     val videoIntent =
                         Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
                     startActivity(videoIntent)
-                    viewModel.video(post.id.toInt())
+                    //viewModel.video(post.id.toInt())
                 }
 
             })
@@ -88,8 +88,6 @@ class FeedFragment : Fragment() {
         return binding.root
     }
 }
-
-
 
 
 

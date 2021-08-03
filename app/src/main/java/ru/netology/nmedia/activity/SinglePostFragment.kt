@@ -72,9 +72,9 @@ class SinglePostFragment : Fragment() {
                     val shareIntent =
                         Intent.createChooser(intent, getString(R.string.chooser_share_post))
                     startActivity(shareIntent)
-                    if (post != null) {
-                        viewModel.singlePost(post.id.toInt())
-                    }
+//                    if (post != null) {
+//                        viewModel.singlePost(post.id.toInt())
+//                    }
                     share.text = post?.shares.toString()
                 }
 
