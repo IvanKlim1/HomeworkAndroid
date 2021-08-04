@@ -63,6 +63,7 @@ class PostRepositoryFileImpl(
         data.value = posts
         sync()
     }
+
     override fun share(id: Long) {
         posts = posts.map {
             if (it.id != id) it else it.copy(shares = it.shares + 1)
