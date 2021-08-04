@@ -15,7 +15,7 @@ internal val empty = Post(
     author = "",
     likedByMe = false,
     published = "",
-    sharedByMe = false,
+ //   sharedByMe = false,
 
 )
 class PostViewModel(application: Application) : AndroidViewModel(application) {
@@ -26,6 +26,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     val data = repository.getAll()
     private val edited = MutableLiveData(empty)
     fun like(id: Long) = repository.like(id)
+    fun share(id: Long) = repository.share(id)
     fun removeById(id: Long) = repository.removeById(id)
 //    fun singlePost(id: Int) = repository.singlePost(id)
 //    fun video(id: Int) = repository.video(id)

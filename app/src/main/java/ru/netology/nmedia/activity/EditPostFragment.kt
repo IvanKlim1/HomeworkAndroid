@@ -55,7 +55,7 @@ class EditPostFragment : Fragment() {
                 viewModel.save()
                 setText("")
                 clearFocus()
-                AndroidUtils.hideKeyboard(this)
+                // AndroidUtils.hideKeyboard(this)
                 AndroidUtils.hideKeyboard(requireView())
                 findNavController().navigateUp()
             }

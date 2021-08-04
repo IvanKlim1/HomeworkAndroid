@@ -10,7 +10,7 @@ class PostRepositoryRoomImpl(
 ) : PostRepository {
     override fun getAll() = Transformations.map(dao.getAll()) { list ->
         list.map {
-            Post(it.id, it.author, it.content, it.published, it.likes,it.shares,it.likedByMe,it.sharedByMe)
+            Post(it.id, it.author, it.content, it.published, it.likes,it.shares,it.likedByMe)
         }
     }
 
